@@ -1,0 +1,145 @@
+package com.jdbc;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DBUtility {
+	private static Connection connection = null;
+
+	public static Connection getConnection() {
+		
+			
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//connection=DriverManager.getConnection("jdbc:oracle:thin:@eisdc-scan.sbi.co.in:1786/iibprdb","eisappsupport","Password#1");
+             connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.85:1787/iibprdb", "eisappsupport", "Password#1");
+			
+			} catch (Exception e) {
+				try {
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+					connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.83:1787/iibprdb", "eisappsupport", "Password#1");	
+				}catch (Exception e1) {
+					try {
+						Class.forName("oracle.jdbc.driver.OracleDriver");
+						connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.77:1787/iibprdb", "eisappsupport", "Password#1");
+					}catch (Exception e2) {
+						try {
+							Class.forName("oracle.jdbc.driver.OracleDriver");
+							connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.75:1787/iibprdb", "eisappsupport", "Password#1");	
+						}catch (Exception e3) {
+							// TODO: handle exception
+							//e3.printStackTrace();
+							System.out.println(e3.getMessage());
+						}
+					}
+				}
+				
+			}
+			
+			return connection;
+		
+	}
+	public static Connection getDRConnection() {
+		
+		
+		try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+	//	connection = DriverManager.getConnection("jdbc:oracle:thin:@eisdr-scan.sbi.co.in:1786/iibdrdb", "eisappsupport", "Password#1");
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.83:1787/iibdrdb", "eisappsupport", "Password#1");
+		
+		} catch (Exception e) {
+			try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.85:1787/iibdrdb", "eisappsupport", "Password#1");	
+			}catch (Exception e1) {
+				try {
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+					connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.77:1787/iibdrdb", "eisappsupport", "Password#1");
+				}catch (Exception e2) {
+					try {
+						Class.forName("oracle.jdbc.driver.OracleDriver");
+						connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.75:1787/iibdrdb", "eisappsupport", "Password#1");	
+					}catch (Exception e3) {
+						// TODO: handle exception
+						e3.printStackTrace();
+					}
+				}
+			}
+			
+		}
+		return connection;
+	
+}
+	
+public static Connection getSIDBConnection() {
+		
+		
+		try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		
+	
+        // PR Connection		
+		//connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.71:1787/sbisi1", "sbisisupport", "password");
+		
+		// DR Connection
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.71:1787/sbisidr1", "sbisisupport", "password");
+		
+		// Scan IP Connection
+	//	connection = DriverManager.getConnection("jdbc:oracle:thin:@eisdr-scan.sbi.co.in:1786/sbisidr1", "sbisisupport", "password");
+		} catch (Exception e) {
+			System.out.print("Hi");
+			e.printStackTrace();
+		}
+		return connection;
+	
+}
+public static Connection getArchivalConnection() {
+	
+	
+	try {
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	connection = DriverManager.getConnection("jdbc:oracle:thin:@eisdrdb05.sbi.co.in:1787/ARCHSIDR2", "IIBARCH", "password");
+//	connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.85:1787/iibdrdb", "eisapp", "eisapp");
+	
+	} catch (Exception e) {
+		System.out.print("Hi");
+		e.printStackTrace();
+	}
+	return connection;
+
+}
+public static Connection getReportDBConnection() {
+	
+	
+	try {
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	// Connection for Report DR DB
+	//connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.82:1787/sidashdr", "eisappsupport", "Password_2");
+	// Connection for Report Prodution DB
+	connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.82:1787/sidashdb", "eisappsupport", "Password_2");
+	
+	} catch (Exception e) {
+		System.out.print("Hi");
+		e.printStackTrace();
+	}
+	return connection;
+
+}
+public static Connection getReportDRDBConnection() {
+	
+	
+	try {
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.82:1787/sidashdr", "eisappsupport", "Password_2");
+
+	
+	} catch (Exception e) {
+		System.out.print("Hi");
+		e.printStackTrace();
+	}
+	return connection;
+
+}
+
+}
