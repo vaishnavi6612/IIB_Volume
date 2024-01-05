@@ -1,0 +1,128 @@
+package com.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class DBUtilityAuto {
+	private static Connection connection = null;
+     static String flagStatus;
+	public static void flag() {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.82:1787/sidashdr", "eisappsupport", "Password_2");
+           String sql="select * from connection_master";
+			Statement smt=connection.createStatement();
+			ResultSet rs=smt.executeQuery(sql);
+			while(rs.next()){
+				flagStatus=rs.getString("FLAG");
+			}
+			} catch (Exception e) {
+				System.out.print("Hi");
+				e.printStackTrace();
+			}
+			
+	}
+	
+	public static Connection getIIBDBConnection() {
+		flag();
+		if(flagStatus.equals("DR")) {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+             connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.85:1787/iibprdb", "eisappsupport", "Password#1");
+		}catch(Exception e) {
+			try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.83:1787/iibprdb", "eisappsupport", "Password#1");	
+			}catch (Exception e1) {
+				try {
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+					connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.77:1787/iibprdb", "eisappsupport", "Password#1");
+				}catch (Exception e2) {
+					try {
+						Class.forName("oracle.jdbc.driver.OracleDriver");
+						connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.75:1787/iibprdb", "eisappsupport", "Password#1");	
+					}catch (Exception e3) {
+						// TODO: handle exception
+						//e3.printStackTrace();
+						System.out.println(e3.getMessage());
+					}
+				}
+			}
+		}
+	}else if(flagStatus.equals("PR")) {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		//	connection = DriverManager.getConnection("jdbc:oracle:thin:@eisdr-scan.sbi.co.in:1786/iibdrdb", "eisappsupport", "Password#1");
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.83:1787/iibdrdb", "eisappsupport", "Password#1");
+			
+			} catch (Exception e) {
+				try {
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+					connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.85:1787/iibdrdb", "eisappsupport", "Password#1");	
+				}catch (Exception e1) {
+					try {
+						Class.forName("oracle.jdbc.driver.OracleDriver");
+						connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.77:1787/iibdrdb", "eisappsupport", "Password#1");
+					}catch (Exception e2) {
+						try {
+							Class.forName("oracle.jdbc.driver.OracleDriver");
+							connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.75:1787/iibdrdb", "eisappsupport", "Password#1");	
+						}catch (Exception e3) {
+							// TODO: handle exception
+							e3.printStackTrace();
+						}
+					}
+				}
+				
+			}
+	}
+		return connection;
+	}
+	
+public static Connection getSIDBConnection() {
+		flag();
+		try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		if(flagStatus.equals("DR")) {
+		//connection = DriverManager.getConnection("jdbc:oracle:thin:@eisdc-scan.sbi.co.in:1786/sbisi1", "sbisisupport", "password");
+		try {
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.71:1787/sbisi1", "sbisisupport", "password");
+		}catch(Exception e2) {
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.73:1787/sbisi1", "sbisisupport", "password");
+		}
+		}else if(flagStatus.equals("PR")) {
+	//	connection = DriverManager.getConnection("jdbc:oracle:thin:@eisdr-scan.sbi.co.in:1786/sbisidr1", "sbisisupport", "password");
+			try {
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.71:1787/sbisidr1", "sbisisupport", "password");
+			}catch (Exception e1) {
+				connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.73:1787/sbisidr1", "sbisisupport", "password");
+			}
+		}
+		} catch (Exception e) {
+			System.out.print("Hi");
+			e.printStackTrace();
+		}
+		return connection;
+	
+}
+
+public static Connection getReportDBConnection() {
+	flag();
+	try {
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	if(flagStatus.equals("DR")) {
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@10.176.0.82:1787/sidashdr", "eisappsupport", "Password_2");
+	}else if(flagStatus.equals("PR")) {
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@10.191.170.82:1787/sidashdb", "eisappsupport", "Password_2");
+	}
+	} catch (Exception e) {
+		System.out.print("Hi");
+		e.printStackTrace();
+	}
+	return connection;
+
+}
+	
+}
